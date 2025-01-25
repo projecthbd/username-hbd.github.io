@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- 
+  Mau custom web ucapan online? Order di Dika Tutorial aja!
+  Youtube: Deka Tutorial
+  Tiktok: @deka_tutorial
+  Instagram: @deka_tutorial
+  -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.4/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>Special For You</title>
+  </head>
+  <body>
+    <div class="pldr">
+      <p></p>
+      <p></p>
+      <p></p>
+    </div>
+    <div class="bg"></div>
+
+    <div class="content">
+      <div class="card">
+        <div>
+          <h3>py birthday ya</h3>
+        </div>
+        <img src="" class="foto" />
+        <img class="surat" src="https://dekatutorial.github.io/spesial_mail.png" />
+        <p>tap me</p>
+      </div>
+    </div>
+
+    <script>
+      background = "https://dekatutorial.github.io/v/rynsql/bg.webp";
+
+      // Masukan nama file musik dan foto beserta ekstensinya (misal: foto.jpg)
+      musik = "lagu.mp3";
+      foto = "1.jpg";
+
+      // Untuk menambah slide tinggal ditambahin dibawah nya sesuai contoh
+      // Jika ingin tanpa pertanyaan tinggal dihapus bagian pertanyaan dan jawaban seperti contoh
+      konten = [
+        {
+          ucapan: "test untuk saat ini",
+        },
+        {
+          pertanyaan: "1 + 1 =",
+          jawaban: "2",
+          ucapan: "Ini ucapan 2",
+        },
+        {
+          pertanyaan: "2 + 2 =",
+          jawaban: "4",
+          ucapan: "Ini ucapan 3",
+        },
+      ];
+
+      // Nomor wa diawali 62
+      noWhatsapp = "";
+
+      // Khusus kode dibawah ini cukup edit bagian title, yg lain jangan diapa-apain
+
+      const swalo = Swal.mixin({ allowOutsideClick: false });
+      async function kirimPesan() {
+        let { value: pesan } = await swalo.fire({ title: "Tulis pesan", input: "textarea", confirmButtonText: "Kirim" });
+        if (pesan) {
+          await swalo.fire({
+            title: "u know what im saying",
+          });
+          location.assign(`https://wa.me/${noWhatsapp}?text=${pesan}`);
+        } else {
+          await swalo.fire({ title: "Jangan dikosongin ya :)" });
+          kirimPesan();
+        }
+      }
+
+      let indC = 0;
+      function nextContent() {
+        const indTemp = indC;
+        function tampilPaper() {
+          if (indC < konten.length) {
+            const paperC = document.querySelector(`.content-paper-${indTemp}`);
+            paperC.classList.add("show");
+            setTimeout(() => {
+              ketik(konten[indTemp].ucapan, `.pesan-${indTemp}`, () => {});
+            }, 300);
+
+            indC++;
+          }
+        }
+
+        if (indC == konten.length) {
+          kirimPesan();
+        } else if (indC < konten.length) {
+          if (indC > 0) {
+            const paperC = document.querySelector(`.content-paper-${indTemp - 1}`);
+            paperC.style = "transition: .5s all ease; opacity: 0";
+            setTimeout(() => {
+              paperC.classList.remove("show");
+            }, 500);
+          }
+          if (typeof konten[indTemp].pertanyaan == "undefined" || typeof konten[indTemp].pertanyaan == "undefined") {
+            tampilPaper();
+          } else {
+            setTimeout(tanya, 500);
+          }
+        }
+
+        async function tanya() {
+          var { value: pesan } = await swalo.fire({ title: konten[indTemp].pertanyaan, input: "text", confirmButtonText: "Kirim" });
+          if (pesan) {
+            if (pesan == konten[indTemp].jawaban) {
+              await swalo.fire({ title: "Benar", icon: "success" });
+
+              tampilPaper();
+            } else {
+              await swalo.fire({ title: "Salah", icon: "error" });
+              tanya();
+            }
+          } else {
+            await swalo.fire({ title: "Jangan dikosongin!" });
+            tanya();
+          }
+        }
+      }
+    </script>
+
+    <script src="script.js"></script>
+  </body>
+</html>
